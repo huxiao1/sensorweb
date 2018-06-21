@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="百度地图,百度地图API，百度地图自定义工具，百度地图所见即所得工具" />
+    <meta name="description" content="百度地图API自定义地图，帮助用户在可视化操作下生成百度地图" />
+    <title>百度地图API自定义地图</title>
+    <!--引用百度地图API-->
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=cFwwh87shv3oWBly6lux4xGvM0R0GRMB"></script>
+  </head>
+  
+<body>
+    <!--百度地图容器-->
+    <div style="width:800px;height:400px;border:#ccc solid 1px;font-size:12px" id="map"></div>
+</body>
+  <script type="text/javascript">
+    //创建和初始化地图函数：
+    function initMap(){
+      createMap();//创建地图
+      setMapEvent();//设置地图事件
+      addMapControl();//向地图添加控件
+      addMapOverlay();//向地图添加覆盖物
+    }
+    function createMap(){ 
+      map = new BMap.Map("map");
+	  map.centerAndZoom(new BMap.Point(115.823147,28.734236),15); 
+    }
+    function setMapEvent(){
+      map.enableScrollWheelZoom();
+      map.enableKeyboard();
+      map.enableDragging();
+      map.enableDoubleClickZoom()
+    }
+    function addClickHandler(target,window){
+      target.addEventListener("click",function(){
+        target.openInfoWindow(window);
+      });
+    }
+    function addMapOverlay(){
+    }
+    //向地图添加控件
+    function addMapControl(){
+      var scaleControl = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
+      scaleControl.setUnit(BMAP_UNIT_IMPERIAL);
+      map.addControl(scaleControl);
+      var navControl = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
+      map.addControl(navControl);
+      var overviewControl = new BMap.OverviewMapControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT,isOpen:true});
+      map.addControl(overviewControl);
+
+	var point = new BMap.Point(115.874726,28.742318);
+	var marker = new BMap.Marker(point);  // 创建标注
+	map.addOverlay(marker);              // 将标注添加到地图中
+	var opts = {
+	  width : 200,     // 信息窗口宽度
+	  height: 100,     // 信息窗口高度
+	  title : "列车位置" , // 信息窗口标题
+	  enableMessage:true,//设置允许信息窗发送短息
+	  message:"The location of train"
+	}
+	var infoWindow = new BMap.InfoWindow("地址：华东交通大学", opts);  // 创建信息窗口对象 
+	marker.addEventListener("click", function(){          
+		map.openInfoWindow(infoWindow,point); //开启信息窗口
+		
+	map.addEventListener("click",function(e){
+		alert(e.point.lng + "," + e.point.lat);//鼠标点击拾取经纬度
+	});
+	});
+	
+	map.centerAndZoom(new BMap.Point(115.874726,28.742318), 15);
+	/*var myP1 = new BMap.Point(115.874367,28.742433);    //起点
+	var myP2 = new BMap.Point(115.861102,28.745467);    //终点
+	var myIcon = new BMap.Icon("http://developer.baidu.com/map/jsdemo/img/Mario.png", new BMap.Size(32, 70), {    //小车图片
+		//offset: new BMap.Size(0, -5),    //相当于CSS精灵
+		imageOffset: new BMap.Size(0, 0)    //图片的偏移量。为了是图片底部中心对准坐标点。
+	  });
+	var driving2 = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: true}});    //驾车实例
+	driving2.search(myP1, myP2);    //显示一条公交线路
+
+	window.run = function (){
+		var driving = new BMap.DrivingRoute(map);    //驾车实例
+		driving.search(myP1, myP2);
+		driving.setSearchCompleteCallback(function(){
+			var pts = driving.getResults().getPlan(0).getRoute(0).getPath();    //通过驾车实例，获得一系列点的数组
+			var paths = pts.length;    //获得有几个点
+
+			var carMk = new BMap.Marker(pts[0],{icon:myIcon});
+			map.addOverlay(carMk);
+			i=0;
+			function resetMkPoint(i){
+				carMk.setPosition(pts[i]);
+				if(i < paths){
+					setTimeout(function(){
+						i++;
+						resetMkPoint(i);
+					},100);
+				}
+			}
+			setTimeout(function(){
+				resetMkPoint(5);
+			},100)
+
+		});
+	}
+
+	setTimeout(function(){
+		run();
+	},1500);*/
+		
+    }
+    var map;
+      initMap();  
+     // PROVIDER=SQLOLEDB;DATA  
+      //SOURCE=(local);UID=sa;PWD=wxyn1998;DATABASE=DCS.Database;
+
+  
+
+  </script>
+</html>
